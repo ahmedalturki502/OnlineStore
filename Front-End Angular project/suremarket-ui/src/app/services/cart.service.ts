@@ -1,121 +1,136 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 export interface CartItem {
-  id: string;
-  name: string;
+  productId: string;
+  productName: string;
+  productImageUrl: string;
   price: number;
   quantity: number;
-  imageUrl: string;
+  total: number;
+}
+
+export interface Cart {
+  items: CartItem[];
+  total: number;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private cartItemsSubject = new BehaviorSubject<CartItem[]>([
-    {
-      id: 'headphones1',
-      name: 'Premium Wireless Headphones',
-      price: 149.99,
-      quantity: 2,
-      imageUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop'
-    },
-    {
-      id: 'smartwatch1',
-      name: 'Smart Fitness Watch',
-      price: 299.99,
-      quantity: 1,
-      imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop'
-    },
-    {
-      id: 'speaker1',
-      name: 'Portable Bluetooth Speaker',
-      price: 89.99,
-      quantity: 3,
-      imageUrl: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=300&h=300&fit=crop'
-    }
-  ]);
+  private readonly baseUrl = '/api/Cart';
+  private cartSubject = new BehaviorSubject<Cart>({ items: [], total: 0 });
+  public cart$ = this.cartSubject.asObservable();
 
-  public cartItems$ = this.cartItemsSubject.asObservable();
+  constructor(private http: HttpClient) {}
 
-  constructor() { }
-
-  getCartItems(): Observable<CartItem[]> {
-    return this.cartItems$;
+  getCart(): Observable<Cart> {
+    return this.http.get<Cart>(this.baseUrl)
+      .pipe(
+        tap(cart => this.cartSubject.next(cart)),
+        catchError(this.handleError)
+      );
   }
 
-  getCurrentCartItems(): CartItem[] {
-    return this.cartItemsSubject.value;
+  addToCart(productId: string, quantity: number): Observable<Cart> {
+    return this.http.post<Cart>(`${this.baseUrl}/items`, { productId, quantity })
+      .pipe(
+        tap(cart => this.cartSubject.next(cart)),
+        catchError(this.handleError)
+      );
   }
 
-  addItem(item: CartItem): void {
-    const currentItems = this.getCurrentCartItems();
-    const existingItemIndex = currentItems.findIndex(cartItem => cartItem.id === item.id);
-
-    if (existingItemIndex > -1) {
-      // Item exists, update quantity
-      currentItems[existingItemIndex].quantity += item.quantity;
-    } else {
-      // New item, add to cart
-      currentItems.push(item);
-    }
-
-    this.cartItemsSubject.next([...currentItems]);
-  }
-
-  updateQuantity(itemId: string, quantity: number): void {
+  updateQuantity(productId: string, quantity: number): Observable<Cart> {
     if (quantity < 1) {
-      this.removeItem(itemId);
-      return;
+      return this.removeItem(productId);
     }
 
-    const currentItems = this.getCurrentCartItems();
-    const itemIndex = currentItems.findIndex(item => item.id === itemId);
-
-    if (itemIndex > -1) {
-      currentItems[itemIndex].quantity = quantity;
-      this.cartItemsSubject.next([...currentItems]);
-    }
+    return this.http.put<Cart>(`${this.baseUrl}/items/${productId}`, { quantity })
+      .pipe(
+        tap(cart => this.cartSubject.next(cart)),
+        catchError(this.handleError)
+      );
   }
 
-  increaseQuantity(itemId: string): void {
-    const currentItems = this.getCurrentCartItems();
-    const item = currentItems.find(item => item.id === itemId);
+  increaseQuantity(productId: string): Observable<Cart> {
+    const currentCart = this.cartSubject.value;
+    const item = currentCart.items.find(item => item.productId === productId);
     
     if (item) {
-      this.updateQuantity(itemId, item.quantity + 1);
+      return this.updateQuantity(productId, item.quantity + 1);
     }
+    
+    return throwError(() => 'Item not found in cart');
   }
 
-  decreaseQuantity(itemId: string): void {
-    const currentItems = this.getCurrentCartItems();
-    const item = currentItems.find(item => item.id === itemId);
+  decreaseQuantity(productId: string): Observable<Cart> {
+    const currentCart = this.cartSubject.value;
+    const item = currentCart.items.find(item => item.productId === productId);
     
     if (item && item.quantity > 1) {
-      this.updateQuantity(itemId, item.quantity - 1);
+      return this.updateQuantity(productId, item.quantity - 1);
     }
+    
+    return throwError(() => 'Cannot decrease quantity below 1');
   }
 
-  removeItem(itemId: string): void {
-    const currentItems = this.getCurrentCartItems();
-    const filteredItems = currentItems.filter(item => item.id !== itemId);
-    this.cartItemsSubject.next(filteredItems);
+  removeItem(productId: string): Observable<Cart> {
+    return this.http.delete<Cart>(`${this.baseUrl}/items/${productId}`)
+      .pipe(
+        tap(cart => this.cartSubject.next(cart)),
+        catchError(this.handleError)
+      );
   }
 
-  clearCart(): void {
-    this.cartItemsSubject.next([]);
+  clearCart(): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/clear`)
+      .pipe(
+        tap(() => this.cartSubject.next({ items: [], total: 0 })),
+        catchError(this.handleError)
+      );
+  }
+
+  getCurrentCart(): Cart {
+    return this.cartSubject.value;
   }
 
   getItemCount(): number {
-    return this.getCurrentCartItems().reduce((total, item) => total + item.quantity, 0);
+    return this.getCurrentCart().items.reduce((total, item) => total + item.quantity, 0);
   }
 
   getTotalPrice(): number {
-    return this.getCurrentCartItems().reduce((total, item) => total + (item.price * item.quantity), 0);
+    return this.getCurrentCart().total;
   }
 
   getSubtotal(item: CartItem): number {
-    return item.price * item.quantity;
+    return item.total;
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'An unexpected error occurred';
+    
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = error.error.message;
+    } else {
+      // Server-side error
+      if (error.status === 401) {
+        errorMessage = 'Please log in to access your cart';
+      } else if (error.status === 404) {
+        errorMessage = 'Cart or item not found';
+      } else if (error.status === 400) {
+        errorMessage = error.error?.message || 'Invalid request';
+      } else if (error.status === 500) {
+        errorMessage = 'Server error. Please try again later';
+      } else {
+        errorMessage = `Error: ${error.status} - ${error.statusText}`;
+      }
+    }
+    
+    console.error('CartService Error:', errorMessage);
+    return throwError(() => errorMessage);
   }
 }

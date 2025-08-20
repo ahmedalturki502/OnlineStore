@@ -2,16 +2,33 @@
   <!-- Page Header -->
   <div class="page-header">
     <h1 class="page-title">Shopping Cart</h1>
-    <p class="page-subtitle" *ngIf="!isCartEmpty()">
+    <p class="page-subtitle" *ngIf="isLoading">
+      Loading your cart...
+    </p>
+    <p class="page-subtitle" *ngIf="!isLoading && !errorMessage && !isCartEmpty()">
       {{ toEnglishNumerals(itemCount) }} {{ itemCount === 1 ? 'item' : 'items' }} in your cart
     </p>
-    <p class="page-subtitle" *ngIf="isCartEmpty()">
+    <p class="page-subtitle" *ngIf="!isLoading && !errorMessage && isCartEmpty()">
       Your cart is currently empty
     </p>
   </div>
 
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="loading-spinner">Loading your cart...</div>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-container" *ngIf="errorMessage && !isLoading">
+    <div class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      {{ errorMessage }}
+    </div>
+    <button class="retry-btn" (click)="loadCart()">Try Again</button>
+  </div>
+
   <!-- Empty Cart State -->
-  <div class="empty-cart" *ngIf="isCartEmpty()">
+  <div class="empty-cart" *ngIf="!isLoading && !errorMessage && isCartEmpty()">
     <div class="empty-cart-content">
       <div class="empty-cart-icon">🛒</div>
       <h2 class="empty-cart-title">Your cart is empty</h2>
@@ -21,7 +38,7 @@
   </div>
 
   <!-- Cart Items -->
-  <div class="cart-content" *ngIf="!isCartEmpty()">
+  <div class="cart-content" *ngIf="!isLoading && !errorMessage && !isCartEmpty()">
     <!-- Desktop Table View -->
     <div class="cart-table-container desktop-view">
       <table class="cart-table">
@@ -38,9 +55,9 @@
           <tr *ngFor="let item of cartItems; trackBy: trackByItemId" class="cart-item-row">
             <td class="product-cell">
               <div class="product-info">
-                <img [src]="item.imageUrl" [alt]="item.name" class="product-image">
+                <img [src]="item.productImageUrl" [alt]="item.productName" class="product-image">
                 <div class="product-details">
-                  <h3 class="product-name">{{ item.name }}</h3>
+                  <h3 class="product-name">{{ item.productName }}</h3>
                 </div>
               </div>
             </td>
@@ -49,23 +66,23 @@
             </td>
             <td class="quantity-cell">
               <div class="quantity-controls">
-                <button class="quantity-btn" (click)="decreaseQuantity(item.id)" [disabled]="item.quantity <= 1">-</button>
+                <button class="quantity-btn" (click)="decreaseQuantity(item.productId)" [disabled]="item.quantity <= 1">-</button>
                 <input 
                   type="number" 
                   class="quantity-input" 
                   value="{{ toEnglishNumerals(item.quantity) }}" 
-                  (change)="updateQuantity(item.id, $event)"
+                  (change)="updateQuantity(item.productId, $event)"
                   min="1"
                   lang="en"
                   inputmode="numeric">
-                <button class="quantity-btn" (click)="increaseQuantity(item.id)">+</button>
+                <button class="quantity-btn" (click)="increaseQuantity(item.productId)">+</button>
               </div>
             </td>
             <td class="subtotal-cell">
               <span class="subtotal">${{ getSubtotal(item).toFixed(2) }}</span>
             </td>
             <td class="action-cell">
-              <button class="remove-btn" (click)="removeItem(item.id)">Remove</button>
+              <button class="remove-btn" (click)="removeItem(item.productId)">Remove</button>
             </td>
           </tr>
         </tbody>
@@ -76,28 +93,28 @@
     <div class="cart-cards-container mobile-view">
       <div *ngFor="let item of cartItems; trackBy: trackByItemId" class="cart-item-card">
         <div class="card-header">
-          <img [src]="item.imageUrl" [alt]="item.name" class="product-image">
+          <img [src]="item.productImageUrl" [alt]="item.productName" class="product-image">
           <div class="product-info">
-            <h3 class="product-name">{{ item.name }}</h3>
+            <h3 class="product-name">{{ item.productName }}</h3>
             <span class="unit-price">${{ item.price.toFixed(2) }} each</span>
           </div>
-          <button class="remove-btn-mobile" (click)="removeItem(item.id)">×</button>
+          <button class="remove-btn-mobile" (click)="removeItem(item.productId)">×</button>
         </div>
         
         <div class="card-body">
           <div class="quantity-section">
             <label class="quantity-label">Quantity:</label>
             <div class="quantity-controls">
-              <button class="quantity-btn" (click)="decreaseQuantity(item.id)" [disabled]="item.quantity <= 1">-</button>
+              <button class="quantity-btn" (click)="decreaseQuantity(item.productId)" [disabled]="item.quantity <= 1">-</button>
               <input 
                 type="number" 
                 class="quantity-input" 
                 value="{{ toEnglishNumerals(item.quantity) }}" 
-                (change)="updateQuantity(item.id, $event)"
+                (change)="updateQuantity(item.productId, $event)"
                 min="1"
                 lang="en"
                 inputmode="numeric">
-              <button class="quantity-btn" (click)="increaseQuantity(item.id)">+</button>
+              <button class="quantity-btn" (click)="increaseQuantity(item.productId)">+</button>
             </div>
           </div>
           

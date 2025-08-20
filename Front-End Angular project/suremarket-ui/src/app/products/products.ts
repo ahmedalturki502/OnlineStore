@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductService, Product } from '../services/product.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-products',
@@ -15,7 +16,10 @@ export class ProductsComponent implements OnInit {
   isLoading = true;
   errorMessage = '';
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -41,10 +45,16 @@ export class ProductsComponent implements OnInit {
 
   addToCart(product: Product): void {
     if (product.stockQuantity > 0) {
-      // Placeholder for add to cart functionality
-      console.log(`Added ${product.name} to cart`);
-      // TODO: Implement actual cart functionality when backend is ready
-      this.showAddToCartConfirmation(product.name);
+      this.cartService.addToCart(product.id, 1).subscribe({
+        next: (cart) => {
+          console.log(`Added ${product.name} to cart`);
+          this.showAddToCartConfirmation(product.name);
+        },
+        error: (error) => {
+          console.error('Error adding to cart:', error);
+          alert(`Failed to add ${product.name} to cart: ${error}`);
+        }
+      });
     }
   }
 

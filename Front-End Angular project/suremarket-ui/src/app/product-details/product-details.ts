@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProductService, Product } from '../services/product.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-product-details',
@@ -22,7 +23,8 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -52,10 +54,16 @@ export class ProductDetailsComponent implements OnInit {
 
   addToCart(product: Product): void {
     if (product.stockQuantity > 0) {
-      // Placeholder for add to cart functionality
-      console.log(`Adding ${product.name} to cart`);
-      // TODO: Implement actual cart functionality when backend is ready
-      alert(`${product.name} has been successfully added to your cart!`);
+      this.cartService.addToCart(product.id, 1).subscribe({
+        next: (cart) => {
+          console.log(`Added ${product.name} to cart`);
+          alert(`${product.name} has been successfully added to your cart!`);
+        },
+        error: (error) => {
+          console.error('Error adding to cart:', error);
+          alert(`Failed to add ${product.name} to cart: ${error}`);
+        }
+      });
     }
   }
 

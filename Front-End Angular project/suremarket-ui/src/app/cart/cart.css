@@ -20,6 +20,57 @@
   margin-right: auto;
 }
 
+/* Loading State */
+.loading-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.loading-spinner {
+  font-size: 1.2rem;
+  color: #415a77;
+  font-weight: 600;
+}
+
+/* Error State */
+.error-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.error-message {
+  background: #e74c3c;
+  color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.retry-btn {
+  background: #415a77;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+  background: #1b263b;
+  transform: translateY(-2px);
+}
+
 .page-title {
   font-size: 3rem;
   font-weight: bold;
