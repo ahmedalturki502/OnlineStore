@@ -90,17 +90,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Apply migrations and seed data
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<OnlineStore.Infrastructure.Persistence.AppDbContext>();
-    context.Database.Migrate();
-    
-    // Seed categories
-    await SampleDataSeeder.SeedAsync(context);
-}
-
-// Seed Identity data
-await IdentitySeeder.SeedAsync(app.Services, app.Configuration);
 
 app.Run();
