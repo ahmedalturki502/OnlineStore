@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 export interface Product {
   id: string;
@@ -18,13 +18,14 @@ export interface Product {
   providedIn: 'root'
 })
 export class ProductService {
-  private readonly baseUrl = 'https://localhost:7290/api/Products';
+  private readonly baseUrl = '/api/Products';
 
   constructor(private http: HttpClient) {}
 
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.baseUrl)
+    return this.http.get<{ items: Product[] }>(this.baseUrl)
       .pipe(
+        map(response => response.items),
         catchError(this.handleError)
       );
   }
