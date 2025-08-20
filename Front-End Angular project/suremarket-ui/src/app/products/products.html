@@ -1,0 +1,76 @@
+<div class="products-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">Our Products</h1>
+    <p class="page-subtitle">Discover our carefully curated collection of premium products</p>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <div class="loading-spinner">Loading products...</div>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-container" *ngIf="errorMessage && !isLoading">
+    <div class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      {{ errorMessage }}
+    </div>
+    <button class="retry-btn" (click)="loadProducts()">Try Again</button>
+  </div>
+
+  <!-- No Products State -->
+  <div class="no-products-container" *ngIf="!isLoading && !errorMessage && products.length === 0">
+    <div class="no-products-message">
+      <i class="fas fa-box-open"></i>
+      <h3>No products found</h3>
+      <p>We couldn't find any products at the moment. Please check back later.</p>
+    </div>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="products-wrapper" *ngIf="!isLoading && !errorMessage && products.length > 0">
+    <div class="products-grid">
+      <div class="product-card" *ngFor="let product of products" [class.out-of-stock]="product.stockQuantity <= 0">
+        <!-- Product Image -->
+        <div class="product-image-container">
+          <a [routerLink]="['/product', product.id]" class="image-link">
+            <img [src]="product.imageUrl" [alt]="product.name" class="product-image">
+          </a>
+          <div class="stock-overlay" *ngIf="product.stockQuantity <= 0">
+            <span class="out-of-stock-text">Out of Stock</span>
+          </div>
+        </div>
+
+        <!-- Product Information -->
+        <div class="product-info">
+          <a [routerLink]="['/product', product.id]" class="product-link">
+            <h3 class="product-name">{{ product.name }}</h3>
+          </a>
+          <p class="product-description">{{ product.description }}</p>
+          
+          <!-- Price and Action Section -->
+          <div class="product-footer">
+            <div class="price-section">
+              <span class="product-price">${{ product.price }}</span>
+            </div>
+            
+            <div class="button-group">
+              <a [routerLink]="['/product', product.id]" class="view-details-btn">
+                View Details
+              </a>
+              <button 
+                class="add-to-cart-btn" 
+                [disabled]="product.stockQuantity <= 0"
+                (click)="addToCart(product)"
+                [class.disabled]="product.stockQuantity <= 0">
+                <span *ngIf="product.stockQuantity > 0">Add to Cart</span>
+                <span *ngIf="product.stockQuantity <= 0">Out of Stock</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

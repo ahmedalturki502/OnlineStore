@@ -1,0 +1,181 @@
+<div class="contact-us-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <h1 class="page-title">Contact Us</h1>
+    <p class="page-subtitle">
+      We'd love to hear from you. Get in touch with our team for any questions, support, or feedback.
+    </p>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Contact Form -->
+    <div class="form-section">
+      <div class="form-container">
+        <div class="form-header">
+          <h2 class="form-title">Send us a Message</h2>
+          <p class="form-subtitle">Fill out the form below and we'll get back to you as soon as possible.</p>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" *ngIf="isSubmitted">
+          <div class="success-content">
+            <div class="success-icon">✅</div>
+            <h3 class="success-title">Message Sent Successfully!</h3>
+            <p class="success-text">Thank you for contacting us. We'll respond within 24 hours.</p>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form" *ngIf="!isSubmitted">
+          <!-- Name Field -->
+          <div class="form-group">
+            <label for="name" class="form-label">Full Name</label>
+            <div class="input-container" [class.error]="hasFieldError('name')">
+              <i class="fas fa-user input-icon"></i>
+              <input
+                id="name"
+                type="text"
+                formControlName="name"
+                class="form-input"
+                placeholder="Enter your full name"
+                [class.error]="hasFieldError('name')"
+                autocomplete="name">
+            </div>
+            <div class="error-message" *ngIf="hasFieldError('name')">
+              {{ getFieldErrorMessage('name') }}
+            </div>
+          </div>
+
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <div class="input-container" [class.error]="hasFieldError('email')">
+              <i class="fas fa-envelope input-icon"></i>
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                class="form-input"
+                placeholder="Enter your email address"
+                [class.error]="hasFieldError('email')"
+                autocomplete="email">
+            </div>
+            <div class="error-message" *ngIf="hasFieldError('email')">
+              {{ getFieldErrorMessage('email') }}
+            </div>
+          </div>
+
+          <!-- Subject Field -->
+          <div class="form-group">
+            <label for="subject" class="form-label">Subject</label>
+            <div class="input-container" [class.error]="hasFieldError('subject')">
+              <i class="fas fa-tag input-icon"></i>
+              <input
+                id="subject"
+                type="text"
+                formControlName="subject"
+                class="form-input"
+                placeholder="What is this about?"
+                [class.error]="hasFieldError('subject')">
+            </div>
+            <div class="error-message" *ngIf="hasFieldError('subject')">
+              {{ getFieldErrorMessage('subject') }}
+            </div>
+          </div>
+
+          <!-- Message Field -->
+          <div class="form-group">
+            <label for="message" class="form-label">Message</label>
+            <div class="textarea-container" [class.error]="hasFieldError('message')">
+              <textarea
+                id="message"
+                formControlName="message"
+                class="form-textarea"
+                placeholder="Tell us more about your inquiry..."
+                rows="6"
+                [class.error]="hasFieldError('message')"></textarea>
+              <div class="character-count">
+                {{ getMessageCharacterCount() }}/1000
+              </div>
+            </div>
+            <div class="error-message" *ngIf="hasFieldError('message')">
+              {{ getFieldErrorMessage('message') }}
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="submit-btn"
+            [disabled]="isSubmitting"
+            [class.loading]="isSubmitting">
+            <span *ngIf="!isSubmitting">Send Message</span>
+            <span *ngIf="isSubmitting" class="loading-content">
+              <i class="fas fa-spinner fa-spin"></i>
+              Sending Message...
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="info-section">
+      <!-- Contact Methods -->
+      <div class="contact-methods">
+        <h3 class="methods-title">Get in Touch</h3>
+        <div class="methods-grid">
+          <div *ngFor="let info of contactInfo" 
+               class="contact-method"
+               (click)="handleContactAction(info.action)">
+            <div class="method-icon">{{ info.icon }}</div>
+            <h4 class="method-title">{{ info.title }}</h4>
+            <div class="method-details">
+              <p *ngFor="let detail of info.details" class="detail-line">{{ detail }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Business Hours -->
+      <div class="business-hours">
+        <h3 class="hours-title">Business Hours</h3>
+        <div class="hours-list">
+          <div *ngFor="let hour of businessHours" class="hour-item">
+            <span class="hour-day">{{ hour.day }}</span>
+            <span class="hour-time">{{ hour.hours }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <div class="additional-info">
+        <h3 class="info-title">Additional Information</h3>
+        <div class="info-content">
+          <div class="info-item">
+            <i class="fas fa-clock info-icon"></i>
+            <div class="info-text">
+              <strong>Response Time:</strong>
+              <span>We typically respond within 24 hours</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-globe info-icon"></i>
+            <div class="info-text">
+              <strong>Languages:</strong>
+              <span>Arabic, English</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-shield-alt info-icon"></i>
+            <div class="info-text">
+              <strong>Privacy:</strong>
+              <span>Your information is secure and confidential</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

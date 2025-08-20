@@ -1,0 +1,103 @@
+<div class="login-container">
+  <div class="login-card">
+    <!-- Header Section -->
+    <div class="login-header">
+      <div class="logo-section">
+        <h1 class="brand-name">Sure Market</h1>
+      </div>
+      <h2 class="login-title">Welcome Back</h2>
+      <p class="login-subtitle">Sign in to your account to continue shopping</p>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-banner" *ngIf="errorMessage">
+      <i class="fas fa-exclamation-triangle"></i>
+      {{ errorMessage }}
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-container" [class.error]="hasFieldError('email')">
+          <i class="fas fa-envelope input-icon"></i>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="form-input"
+            placeholder="Enter your email"
+            [class.error]="hasFieldError('email')"
+            autocomplete="email">
+        </div>
+        <div class="error-message" *ngIf="hasFieldError('email')">
+          {{ getFieldErrorMessage('email') }}
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-container" [class.error]="hasFieldError('password')">
+          <i class="fas fa-lock input-icon"></i>
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="form-input"
+            placeholder="Enter your password"
+            [class.error]="hasFieldError('password')"
+            autocomplete="current-password">
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+            tabindex="-1">
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        <div class="error-message" *ngIf="hasFieldError('password')">
+          {{ getFieldErrorMessage('password') }}
+        </div>
+      </div>
+
+      <!-- Forgot Password Link -->
+      <div class="forgot-password-section">
+        <a href="#" class="forgot-password-link">Forgot your password?</a>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="login-btn"
+        [disabled]="isSubmitting"
+        [class.loading]="isSubmitting">
+        <span *ngIf="!isSubmitting">Sign In</span>
+        <span *ngIf="isSubmitting" class="loading-content">
+          <i class="fas fa-spinner fa-spin"></i>
+          Signing In...
+        </span>
+      </button>
+
+      <!-- Register Link -->
+      <div class="register-link-section">
+        <p class="register-text">
+          Don't have an account? 
+          <button type="button" class="register-link" (click)="navigateToRegister()">
+            Create one now
+          </button>
+        </p>
+      </div>
+    </form>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      <p class="footer-text">
+        By signing in, you agree to our 
+        <a href="#" class="footer-link">Terms of Service</a> and 
+        <a href="#" class="footer-link">Privacy Policy</a>
+      </p>
+    </div>
+  </div>
+</div>

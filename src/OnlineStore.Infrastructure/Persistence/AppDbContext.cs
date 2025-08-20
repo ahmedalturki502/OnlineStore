@@ -15,19 +15,20 @@ public sealed class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
     public DbSet<Cart> Carts => Set<Cart>();
     public DbSet<CartItem> CartItems => Set<CartItem>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
 
-        // ?? Seed Roles
+        //  Seed Roles
         var adminRole = new AppRole { Id = Guid.NewGuid(), Name = "Admin", NormalizedName = "ADMIN" };
         var customerRole = new AppRole { Id = Guid.NewGuid(), Name = "Customer", NormalizedName = "CUSTOMER" };
 
         builder.Entity<AppRole>().HasData(adminRole, customerRole);
 
-        // ?? Seed Admin User
+        //  Seed Admin User
         var hasher = new PasswordHasher<AppUser>();
         var adminUser = new AppUser
         {
@@ -46,39 +47,39 @@ public sealed class AppDbContext : IdentityDbContext<AppUser, AppRole, Guid>
 
         builder.Entity<AppUser>().HasData(adminUser);
 
-        // ?? ???? ?????? ???? Admin
         builder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
         {
             UserId = adminUser.Id,
             RoleId = adminRole.Id
         });
 
-        // ?? Seed Categories (??? ?? ????? ???? GUID ?? ??????)
+
         builder.Entity<Category>().HasData(
-            new Category
-            {
-                Id = Guid.NewGuid(),
-                Name = "Electronics",
-                Description = "Electronic devices, gadgets, and accessories",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            },
-            new Category
-            {
-                Id = Guid.NewGuid(),
-                Name = "Groceries",
-                Description = "Food items, beverages, and household essentials",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            },
-            new Category
-            {
-                Id = Guid.NewGuid(),
-                Name = "Clothing",
-                Description = "Apparel, shoes, and fashion accessories",
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
-            }
-        );
+    new Category
+    {
+        Id = new Guid("00000000-0000-0000-0000-000000000001"),
+        Name = "Electronics",
+        Description = "Electronic devices, gadgets, and accessories",
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = DateTime.UtcNow
+    },
+    new Category
+    {
+        Id = new Guid("00000000-0000-0000-0000-000000000002"),
+        Name = "Groceries",
+        Description = "Food items, beverages, and household essentials",
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = DateTime.UtcNow
+    },
+    new Category
+    {
+        Id = new Guid("00000000-0000-0000-0000-000000000003"),
+        Name = "Clothing",
+        Description = "Apparel, shoes, and fashion accessories",
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = DateTime.UtcNow
+    }
+);
+
     }
 }

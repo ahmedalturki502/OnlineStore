@@ -1,0 +1,29 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Discover Amazing Products</h1>
+      <p class="hero-subtitle">Your one-stop destination for quality products at unbeatable prices</p>
+      <button class="shop-now-btn">Shop Now</button>
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section class="featured-products">
+    <div class="container">
+      <h2 class="section-title">Featured Products</h2>
+      <div class="products-grid">
+        <div class="product-card" *ngFor="let product of featuredProducts">
+          <div class="product-image">
+            <img [src]="product.image" [alt]="product.title">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">{{ product.title }}</h3>
+            <p class="product-price">${{ product.price }}</p>
+            <button class="view-btn">View</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

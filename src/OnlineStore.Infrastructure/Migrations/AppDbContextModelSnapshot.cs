@@ -8,7 +8,7 @@ using OnlineStore.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace E_Commerce.Migrations
+namespace OnlineStore.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -108,8 +108,8 @@ namespace E_Commerce.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("47162438-f2ca-4817-bb56-8dbb8ab1c67b"),
-                            RoleId = new Guid("aad84b5a-7585-4446-b334-5432a33be272")
+                            UserId = new Guid("3b1d3f25-7192-45d4-9917-d9c031ff11c0"),
+                            RoleId = new Guid("764c0e2e-5482-486b-9e1c-2002acfdea4c")
                         });
                 });
 
@@ -162,13 +162,13 @@ namespace E_Commerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("aad84b5a-7585-4446-b334-5432a33be272"),
+                            Id = new Guid("764c0e2e-5482-486b-9e1c-2002acfdea4c"),
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("a5e4a8f9-5e7b-4f40-9742-880abb3bf023"),
+                            Id = new Guid("9f93827d-62a8-489c-a182-275be6cada34"),
                             Name = "Customer",
                             NormalizedName = "CUSTOMER"
                         });
@@ -253,21 +253,21 @@ namespace E_Commerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("47162438-f2ca-4817-bb56-8dbb8ab1c67b"),
+                            Id = new Guid("3b1d3f25-7192-45d4-9917-d9c031ff11c0"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7cf929e2-ee30-47c4-bd2e-24e436e9f83a",
-                            CreatedAt = new DateTime(2025, 8, 20, 7, 51, 0, 177, DateTimeKind.Utc).AddTicks(5025),
+                            ConcurrencyStamp = "aeb3de43-56ac-4d9c-8865-fc670eea3df0",
+                            CreatedAt = new DateTime(2025, 8, 20, 11, 50, 53, 173, DateTimeKind.Utc).AddTicks(7644),
                             Email = "admin@onlinestore.com",
                             EmailConfirmed = true,
                             FullName = "Store Admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ONLINESTORE.COM",
                             NormalizedUserName = "ADMIN@ONLINESTORE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENv88kmZg1BsKheSzk93i+i7ywsOTFC9UBO0pKaNNNymv4cC1i0xCWg7DqrEv8JhBg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENj0Wx84kubJGW+noGYNwPN0hCOc0hmrU2PLU0zEhxb1FtHD7ihEGgL1V7CnyrwDeA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7af35a60-d625-41e7-8620-ff0fe650e0aa",
+                            SecurityStamp = "549f5372-8701-43d0-afb3-089591c0219c",
                             TwoFactorEnabled = false,
-                            UpdatedAt = new DateTime(2025, 8, 20, 7, 51, 0, 177, DateTimeKind.Utc).AddTicks(5028),
+                            UpdatedAt = new DateTime(2025, 8, 20, 11, 50, 53, 173, DateTimeKind.Utc).AddTicks(7646),
                             UserName = "admin@onlinestore.com"
                         });
                 });
@@ -360,27 +360,27 @@ namespace E_Commerce.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6240efe9-7ac5-42f5-a7cf-4b1d4f1b3f4a"),
-                            CreatedAt = new DateTime(2025, 8, 20, 7, 51, 0, 366, DateTimeKind.Utc).AddTicks(9773),
+                            Id = new Guid("00370da4-41c0-4ab1-80d3-c96915490791"),
+                            CreatedAt = new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5377),
                             Description = "Electronic devices, gadgets, and accessories",
                             Name = "Electronics",
-                            UpdatedAt = new DateTime(2025, 8, 20, 7, 51, 0, 366, DateTimeKind.Utc).AddTicks(9775)
+                            UpdatedAt = new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5379)
                         },
                         new
                         {
-                            Id = new Guid("94f5fe5e-af92-4496-bb97-9b7984a66200"),
-                            CreatedAt = new DateTime(2025, 8, 20, 7, 51, 0, 366, DateTimeKind.Utc).AddTicks(9788),
+                            Id = new Guid("1a79c3e8-6148-4afd-943d-39db0ac24999"),
+                            CreatedAt = new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5382),
                             Description = "Food items, beverages, and household essentials",
                             Name = "Groceries",
-                            UpdatedAt = new DateTime(2025, 8, 20, 7, 51, 0, 366, DateTimeKind.Utc).AddTicks(9790)
+                            UpdatedAt = new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5382)
                         },
                         new
                         {
-                            Id = new Guid("662e2134-28a0-45ab-934b-41160de6d926"),
-                            CreatedAt = new DateTime(2025, 8, 20, 7, 51, 0, 366, DateTimeKind.Utc).AddTicks(9809),
+                            Id = new Guid("1acec19d-03a3-436c-ab3f-9d7bd75102f0"),
+                            CreatedAt = new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5395),
                             Description = "Apparel, shoes, and fashion accessories",
                             Name = "Clothing",
-                            UpdatedAt = new DateTime(2025, 8, 20, 7, 51, 0, 366, DateTimeKind.Utc).AddTicks(9811)
+                            UpdatedAt = new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5396)
                         });
                 });
 
@@ -512,6 +512,42 @@ namespace E_Commerce.Migrations
                         });
                 });
 
+            modelBuilder.Entity("OnlineStore.Domain.Entities.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Token")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens", (string)null);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("OnlineStore.Domain.Entities.AppRole", null)
@@ -634,11 +670,24 @@ namespace E_Commerce.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("OnlineStore.Domain.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("OnlineStore.Domain.Entities.AppUser", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("OnlineStore.Domain.Entities.AppUser", b =>
                 {
                     b.Navigation("Cart");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("RefreshTokens");
                 });
 
             modelBuilder.Entity("OnlineStore.Domain.Entities.Cart", b =>

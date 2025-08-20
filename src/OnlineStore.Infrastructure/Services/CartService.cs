@@ -72,12 +72,18 @@ public class CartService : ICartService
         }
         else
         {
-            cart.Items.Add(new CartItem
+            var newItem = new CartItem
             {
                 CartId = cart.Id,
                 ProductId = request.ProductId,
-                Quantity = request.Quantity
-            });
+                Quantity = request.Quantity,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            _context.CartItems.Add(newItem);  // ????? ?????? ?? ???? CartItems
+            await _context.SaveChangesAsync();
+
         }
 
         cart.UpdatedAt = DateTime.UtcNow;

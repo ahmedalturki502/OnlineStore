@@ -1,0 +1,80 @@
+<div class="product-details-container">
+  <!-- Breadcrumb Navigation -->
+  <nav class="breadcrumb-nav">
+    <div class="breadcrumb">
+      <span *ngFor="let crumb of breadcrumbs; let last = last" class="breadcrumb-item">
+        <a *ngIf="crumb.url && !last" [routerLink]="crumb.url" class="breadcrumb-link">{{ crumb.label }}</a>
+        <span *ngIf="!crumb.url || last" class="breadcrumb-current">{{ crumb.label }}</span>
+        <span *ngIf="!last" class="breadcrumb-separator">></span>
+      </span>
+    </div>
+  </nav>
+
+  <!-- Product Detail Card -->
+  <div class="product-detail-card" *ngIf="!productNotFound && product">
+    <div class="product-content">
+      <!-- Product Image Section -->
+      <div class="product-image-section">
+        <div class="image-container">
+          <img [src]="product.imageUrl" [alt]="product.name" class="product-image">
+        </div>
+      </div>
+
+      <!-- Product Information Section -->
+      <div class="product-info-section">
+        <div class="product-header">
+          <span class="product-category">{{ product.categoryName }}</span>
+          <h1 class="product-title">{{ product.name }}</h1>
+        </div>
+
+        <div class="price-section">
+          <span class="product-price">${{ product.price }}</span>
+        </div>
+
+        <div class="stock-section">
+          <span class="stock-status" [ngClass]="getStockStatusClass()">
+            {{ getStockStatus() }}
+          </span>
+          <span *ngIf="isInStock()" class="stock-quantity">
+            ({{ product.stockQuantity }} items available)
+          </span>
+        </div>
+
+        <div class="description-section">
+          <h3 class="description-title">Product Description</h3>
+          <p class="product-description">{{ product.description }}</p>
+        </div>
+
+        <div class="action-section">
+          <button 
+            class="add-to-cart-btn"
+            [disabled]="!isInStock()"
+            [ngClass]="{ 'disabled': !isInStock() }"
+            (click)="addToCart(product)">
+            <span *ngIf="isInStock()" class="button-text">Add to Cart</span>
+            <span *ngIf="!isInStock()" class="button-text">Out of Stock</span>
+            <span class="button-icon">🛒</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Not Found Card -->
+  <div class="product-detail-card" *ngIf="productNotFound">
+    <div class="product-content">
+      <div class="product-info-section" style="text-align: center; padding: 4rem;">
+        <h1 class="product-title">Product Not Found</h1>
+        <p class="product-description" style="margin-top: 2rem;">
+          Sorry, the product you're looking for doesn't exist or may have been removed.
+        </p>
+        <div class="action-section" style="margin-top: 3rem;">
+          <a routerLink="/products" class="add-to-cart-btn" style="text-decoration: none; display: inline-flex;">
+            <span class="button-text">Back to Products</span>
+            <span class="button-icon">←</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

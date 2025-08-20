@@ -1,0 +1,143 @@
+<div class="cart-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">Shopping Cart</h1>
+    <p class="page-subtitle" *ngIf="!isCartEmpty()">
+      {{ toEnglishNumerals(itemCount) }} {{ itemCount === 1 ? 'item' : 'items' }} in your cart
+    </p>
+    <p class="page-subtitle" *ngIf="isCartEmpty()">
+      Your cart is currently empty
+    </p>
+  </div>
+
+  <!-- Empty Cart State -->
+  <div class="empty-cart" *ngIf="isCartEmpty()">
+    <div class="empty-cart-content">
+      <div class="empty-cart-icon">🛒</div>
+      <h2 class="empty-cart-title">Your cart is empty</h2>
+      <p class="empty-cart-text">Start shopping to add items to your cart</p>
+      <a href="/products" class="shop-now-btn">Start Shopping</a>
+    </div>
+  </div>
+
+  <!-- Cart Items -->
+  <div class="cart-content" *ngIf="!isCartEmpty()">
+    <!-- Desktop Table View -->
+    <div class="cart-table-container desktop-view">
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of cartItems; trackBy: trackByItemId" class="cart-item-row">
+            <td class="product-cell">
+              <div class="product-info">
+                <img [src]="item.imageUrl" [alt]="item.name" class="product-image">
+                <div class="product-details">
+                  <h3 class="product-name">{{ item.name }}</h3>
+                </div>
+              </div>
+            </td>
+            <td class="price-cell">
+              <span class="price">${{ item.price.toFixed(2) }}</span>
+            </td>
+            <td class="quantity-cell">
+              <div class="quantity-controls">
+                <button class="quantity-btn" (click)="decreaseQuantity(item.id)" [disabled]="item.quantity <= 1">-</button>
+                <input 
+                  type="number" 
+                  class="quantity-input" 
+                  value="{{ toEnglishNumerals(item.quantity) }}" 
+                  (change)="updateQuantity(item.id, $event)"
+                  min="1"
+                  lang="en"
+                  inputmode="numeric">
+                <button class="quantity-btn" (click)="increaseQuantity(item.id)">+</button>
+              </div>
+            </td>
+            <td class="subtotal-cell">
+              <span class="subtotal">${{ getSubtotal(item).toFixed(2) }}</span>
+            </td>
+            <td class="action-cell">
+              <button class="remove-btn" (click)="removeItem(item.id)">Remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile Card View -->
+    <div class="cart-cards-container mobile-view">
+      <div *ngFor="let item of cartItems; trackBy: trackByItemId" class="cart-item-card">
+        <div class="card-header">
+          <img [src]="item.imageUrl" [alt]="item.name" class="product-image">
+          <div class="product-info">
+            <h3 class="product-name">{{ item.name }}</h3>
+            <span class="unit-price">${{ item.price.toFixed(2) }} each</span>
+          </div>
+          <button class="remove-btn-mobile" (click)="removeItem(item.id)">×</button>
+        </div>
+        
+        <div class="card-body">
+          <div class="quantity-section">
+            <label class="quantity-label">Quantity:</label>
+            <div class="quantity-controls">
+              <button class="quantity-btn" (click)="decreaseQuantity(item.id)" [disabled]="item.quantity <= 1">-</button>
+              <input 
+                type="number" 
+                class="quantity-input" 
+                value="{{ toEnglishNumerals(item.quantity) }}" 
+                (change)="updateQuantity(item.id, $event)"
+                min="1"
+                lang="en"
+                inputmode="numeric">
+              <button class="quantity-btn" (click)="increaseQuantity(item.id)">+</button>
+            </div>
+          </div>
+          
+          <div class="subtotal-section">
+            <span class="subtotal-label">Subtotal:</span>
+            <span class="subtotal">${{ getSubtotal(item).toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="cart-summary">
+      <div class="summary-content">
+        <div class="summary-header">
+          <h2 class="summary-title">Order Summary</h2>
+        </div>
+        
+        <div class="summary-details">
+          <div class="summary-row">
+            <span class="summary-label">Items ({{ toEnglishNumerals(itemCount) }}):</span>
+            <span class="summary-value">${{ totalPrice.toFixed(2) }}</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-label">Shipping:</span>
+            <span class="summary-value">Free</span>
+          </div>
+          <div class="summary-row total-row">
+            <span class="summary-label">Total:</span>
+            <span class="summary-value total-price">${{ totalPrice.toFixed(2) }}</span>
+          </div>
+        </div>
+        
+        <div class="summary-actions">
+          <button class="clear-cart-btn" (click)="clearCart()">Clear Cart</button>
+          <button class="checkout-btn" (click)="proceedToCheckout()">
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

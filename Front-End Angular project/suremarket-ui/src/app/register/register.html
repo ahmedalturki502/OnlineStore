@@ -1,0 +1,162 @@
+<div class="register-container">
+  <div class="register-card">
+    <!-- Header Section -->
+    <div class="register-header">
+      <div class="logo-section">
+        <h1 class="brand-name">Sure Market</h1>
+      </div>
+      <h2 class="register-title">Create Account</h2>
+      <p class="register-subtitle">Join us today and start your shopping journey</p>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-banner" *ngIf="errorMessage">
+      <i class="fas fa-exclamation-triangle"></i>
+      {{ errorMessage }}
+    </div>
+
+    <!-- Registration Form -->
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+      <!-- Full Name Field -->
+      <div class="form-group">
+        <label for="fullName" class="form-label">Full Name</label>
+        <div class="input-container" [class.error]="hasFieldError('fullName')">
+          <i class="fas fa-user input-icon"></i>
+          <input
+            id="fullName"
+            type="text"
+            formControlName="fullName"
+            class="form-input"
+            placeholder="Enter your full name"
+            [class.error]="hasFieldError('fullName')"
+            autocomplete="name">
+        </div>
+        <div class="error-message" *ngIf="hasFieldError('fullName')">
+          {{ getFieldErrorMessage('fullName') }}
+        </div>
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-container" [class.error]="hasFieldError('email')">
+          <i class="fas fa-envelope input-icon"></i>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="form-input"
+            placeholder="Enter your email"
+            [class.error]="hasFieldError('email')"
+            autocomplete="email">
+        </div>
+        <div class="error-message" *ngIf="hasFieldError('email')">
+          {{ getFieldErrorMessage('email') }}
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-container" [class.error]="hasFieldError('password')">
+          <i class="fas fa-lock input-icon"></i>
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            class="form-input"
+            placeholder="Create a password"
+            [class.error]="hasFieldError('password')"
+            autocomplete="new-password">
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility('password')"
+            tabindex="-1">
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        
+        <!-- Password Strength Indicator -->
+        <div class="password-strength" *ngIf="password?.value && password?.touched">
+          <div class="strength-bar">
+            <div class="strength-fill" [class]="getPasswordStrength()"></div>
+          </div>
+          <span class="strength-text" [class]="getPasswordStrength()">
+            {{ getPasswordStrength() | titlecase }} Password
+          </span>
+        </div>
+        
+        <div class="error-message" *ngIf="hasFieldError('password')">
+          {{ getFieldErrorMessage('password') }}
+        </div>
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="form-group">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <div class="input-container" [class.error]="hasFieldError('confirmPassword')">
+          <i class="fas fa-lock input-icon"></i>
+          <input
+            id="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="confirmPassword"
+            class="form-input"
+            placeholder="Confirm your password"
+            [class.error]="hasFieldError('confirmPassword')"
+            autocomplete="new-password">
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility('confirmPassword')"
+            tabindex="-1">
+            <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        <div class="error-message" *ngIf="hasFieldError('confirmPassword')">
+          {{ getFieldErrorMessage('confirmPassword') }}
+        </div>
+      </div>
+
+      <!-- Terms and Conditions -->
+      <div class="terms-section">
+        <p class="terms-text">
+          By creating an account, you agree to our 
+          <a href="#" class="terms-link">Terms of Service</a> and 
+          <a href="#" class="terms-link">Privacy Policy</a>
+        </p>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="register-btn"
+        [disabled]="isSubmitting"
+        [class.loading]="isSubmitting">
+        <span *ngIf="!isSubmitting">Create Account</span>
+        <span *ngIf="isSubmitting" class="loading-content">
+          <i class="fas fa-spinner fa-spin"></i>
+          Creating Account...
+        </span>
+      </button>
+
+      <!-- Login Link -->
+      <div class="login-link-section">
+        <p class="login-text">
+          Already have an account? 
+          <button type="button" class="login-link" (click)="navigateToLogin()">
+            Sign in here
+          </button>
+        </p>
+      </div>
+    </form>
+
+    <!-- Footer -->
+    <div class="register-footer">
+      <p class="footer-text">
+        Need help? Contact our 
+        <a href="#" class="footer-link">Customer Support</a>
+      </p>
+    </div>
+  </div>
+</div>

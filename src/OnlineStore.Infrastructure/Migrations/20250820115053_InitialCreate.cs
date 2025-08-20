@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace E_Commerce.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace OnlineStore.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -219,6 +221,29 @@ namespace E_Commerce.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsRevoked = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -307,6 +332,35 @@ namespace E_Commerce.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { new Guid("764c0e2e-5482-486b-9e1c-2002acfdea4c"), null, "Admin", "ADMIN" },
+                    { new Guid("9f93827d-62a8-489c-a182-275be6cada34"), null, "Customer", "CUSTOMER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedAt", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UpdatedAt", "UserName" },
+                values: new object[] { new Guid("3b1d3f25-7192-45d4-9917-d9c031ff11c0"), 0, "aeb3de43-56ac-4d9c-8865-fc670eea3df0", new DateTime(2025, 8, 20, 11, 50, 53, 173, DateTimeKind.Utc).AddTicks(7644), "admin@onlinestore.com", true, "Store Admin", false, null, "ADMIN@ONLINESTORE.COM", "ADMIN@ONLINESTORE.COM", "AQAAAAIAAYagAAAAENj0Wx84kubJGW+noGYNwPN0hCOc0hmrU2PLU0zEhxb1FtHD7ihEGgL1V7CnyrwDeA==", null, false, "549f5372-8701-43d0-afb3-089591c0219c", false, new DateTime(2025, 8, 20, 11, 50, 53, 173, DateTimeKind.Utc).AddTicks(7646), "admin@onlinestore.com" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "CreatedAt", "Description", "Name", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { new Guid("00370da4-41c0-4ab1-80d3-c96915490791"), new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5377), "Electronic devices, gadgets, and accessories", "Electronics", new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5379) },
+                    { new Guid("1a79c3e8-6148-4afd-943d-39db0ac24999"), new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5382), "Food items, beverages, and household essentials", "Groceries", new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5382) },
+                    { new Guid("1acec19d-03a3-436c-ab3f-9d7bd75102f0"), new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5395), "Apparel, shoes, and fashion accessories", "Clothing", new DateTime(2025, 8, 20, 11, 50, 53, 228, DateTimeKind.Utc).AddTicks(5396) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { new Guid("764c0e2e-5482-486b-9e1c-2002acfdea4c"), new Guid("3b1d3f25-7192-45d4-9917-d9c031ff11c0") });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -394,6 +448,17 @@ namespace E_Commerce.Migrations
                 table: "Products",
                 column: "Name",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_Token",
+                table: "RefreshTokens",
+                column: "Token",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_UserId",
+                table: "RefreshTokens",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -419,6 +484,9 @@ namespace E_Commerce.Migrations
 
             migrationBuilder.DropTable(
                 name: "OrderItems");
+
+            migrationBuilder.DropTable(
+                name: "RefreshTokens");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

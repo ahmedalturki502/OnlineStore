@@ -1,0 +1,32 @@
+<!-- Top Navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- Left Navigation -->
+    <div class="navbar-left">
+      <a href="#" class="nav-link">Home</a>
+      <div class="dropdown" (click)="toggleDropdown()">
+        <a href="#" class="nav-link">Categories ▼</a>
+        <div class="dropdown-content" [class.show]="dropdownOpen">
+          <a href="#">Electronics</a>
+          <a href="#">Fashion</a>
+          <a href="#">Home & Garden</a>
+          <a href="#">Sports</a>
+          <a href="#">Books</a>
+        </div>
+      </div>
+      <a routerLink="/products" class="nav-link">Products</a>
+    </div>
+
+    <!-- Center Brand -->
+    <div class="navbar-center">
+      <h1 class="brand">Sure Market</h1>
+    </div>
+
+    <!-- Right Navigation -->
+    <div class="navbar-right">
+      <a routerLink="/cart" class="cart-icon">🛒</a>
+      <a routerLink="/login" class="nav-link">Sign In</a>
+      <a routerLink="/register" class="nav-link sign-up">Sign Up</a>
+    </div>
+  </div>
+</nav>

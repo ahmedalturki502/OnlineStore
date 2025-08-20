@@ -1,0 +1,6 @@
+/* App Layout */
+.main-content {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,88 @@
+<div class="returns-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <h1 class="page-title">Returns & Exchange Policy</h1>
+    <p class="intro-text">
+      We want you to be completely satisfied with your purchase. If you're not happy with your order, 
+      we offer a hassle-free return and exchange policy to ensure your shopping experience is excellent.
+    </p>
+  </div>
+
+  <!-- Quick Navigation -->
+  <div class="quick-nav">
+    <h3 class="nav-title">Quick Navigation</h3>
+    <div class="nav-buttons">
+      <button *ngFor="let section of policySections" 
+              class="nav-button"
+              (click)="scrollToSection(section.id)">
+        <span class="nav-icon">{{ section.icon }}</span>
+        {{ section.title }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Policy Sections -->
+  <div class="policy-sections">
+    <div *ngFor="let section of policySections; let i = index" 
+         [id]="section.id"
+         class="policy-card"
+         [class.highlighted]="i % 2 === 0">
+      
+      <div class="card-header">
+        <div class="header-content">
+          <span class="section-icon">{{ section.icon }}</span>
+          <h2 class="section-title">{{ section.title }}</h2>
+        </div>
+      </div>
+      
+      <div class="card-body">
+        <p class="section-description">{{ section.description }}</p>
+        
+        <ul class="policy-list">
+          <li *ngFor="let item of section.items" class="policy-item">
+            <span class="item-bullet">•</span>
+            <span class="item-text">{{ item }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Support Section -->
+  <div class="support-section">
+    <div class="support-content">
+      <h2 class="support-title">Need Help?</h2>
+      <p class="support-text">
+        If you have any questions about returns or exchanges, our customer service team is here to help.
+      </p>
+      
+      <div class="support-options">
+        <div class="support-option">
+          <div class="option-icon">📧</div>
+          <h4 class="option-title">Email Support</h4>
+          <p class="option-detail">returns@suremarket.com</p>
+          <p class="option-subtitle">Response within 24 hours</p>
+        </div>
+        
+        <div class="support-option">
+          <div class="option-icon">📞</div>
+          <h4 class="option-title">Phone Support</h4>
+          <p class="option-detail">+966 11 123 4567</p>
+          <p class="option-subtitle">Mon-Fri 9AM-6PM</p>
+        </div>
+        
+        <div class="support-option">
+          <div class="option-icon">💬</div>
+          <h4 class="option-title">Live Chat</h4>
+          <p class="option-detail">Available on website</p>
+          <p class="option-subtitle">Instant assistance</p>
+        </div>
+      </div>
+      
+      <div class="cta-section">
+        <button class="contact-btn">Contact Support</button>
+        <button class="faq-btn">View FAQ</button>
+      </div>
+    </div>
+  </div>
+</div>

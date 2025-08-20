@@ -1,0 +1,500 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.returns-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0e1dd 0%, #f8f9f7 100%);
+  padding: 2rem;
+}
+
+/* Header Section */
+.header-section {
+  max-width: 1000px;
+  margin: 0 auto 3rem auto;
+  text-align: center;
+  background: white;
+  padding: 3rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(13, 27, 42, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.header-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #415a77, #778da9);
+}
+
+.page-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #1b263b;
+  margin-bottom: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.intro-text {
+  color: #415a77;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Quick Navigation */
+.quick-nav {
+  max-width: 1000px;
+  margin: 0 auto 3rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(13, 27, 42, 0.1);
+}
+
+.nav-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1b263b;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.nav-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.nav-button {
+  background: linear-gradient(135deg, #f8f9f7 0%, white 100%);
+  border: 2px solid #e0e1dd;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #415a77;
+}
+
+.nav-button:hover {
+  border-color: #415a77;
+  background: linear-gradient(135deg, #415a77 0%, #1b263b 100%);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(65, 90, 119, 0.3);
+}
+
+.nav-icon {
+  font-size: 1.2rem;
+}
+
+/* Policy Sections */
+.policy-sections {
+  max-width: 1000px;
+  margin: 0 auto 3rem auto;
+  display: grid;
+  gap: 2rem;
+}
+
+.policy-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(13, 27, 42, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.policy-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(13, 27, 42, 0.15);
+}
+
+.policy-card.highlighted {
+  background: linear-gradient(135deg, #f8f9f7 0%, white 100%);
+}
+
+.card-header {
+  background: linear-gradient(135deg, #415a77 0%, #1b263b 100%);
+  color: white;
+  padding: 2rem;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-icon {
+  font-size: 2rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.8rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.card-body {
+  padding: 2.5rem;
+}
+
+.section-description {
+  color: #1b263b;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.policy-list {
+  list-style: none;
+}
+
+.policy-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.policy-item:hover {
+  background: #f8f9f7;
+}
+
+.item-bullet {
+  color: #415a77;
+  font-size: 1.5rem;
+  font-weight: bold;
+  min-width: 20px;
+  margin-top: -0.2rem;
+}
+
+.item-text {
+  color: #415a77;
+  font-size: 1rem;
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* Support Section */
+.support-section {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #415a77 0%, #1b263b 100%);
+  color: white;
+  border-radius: 25px;
+  box-shadow: 0 20px 50px rgba(13, 27, 42, 0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+.support-content {
+  padding: 3rem;
+  text-align: center;
+}
+
+.support-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.support-text {
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.support-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.support-option {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.support-option:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+.option-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.option-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.option-detail {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #e0e1dd;
+}
+
+.option-subtitle {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.cta-section {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contact-btn, .faq-btn {
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.contact-btn {
+  background: white;
+  color: #415a77;
+}
+
+.contact-btn:hover {
+  background: #e0e1dd;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+.faq-btn {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.faq-btn:hover {
+  background: white;
+  color: #415a77;
+  transform: translateY(-3px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .returns-container {
+    padding: 1rem;
+  }
+  
+  .header-section {
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+  }
+  
+  .intro-text {
+    font-size: 1.1rem;
+  }
+  
+  .quick-nav {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .nav-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .nav-button {
+    padding: 0.8rem 1rem;
+  }
+  
+  .policy-sections {
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .card-header {
+    padding: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+  .support-content {
+    padding: 2rem;
+  }
+  
+  .support-title {
+    font-size: 2rem;
+  }
+  
+  .support-options {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .cta-section {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .contact-btn, .faq-btn {
+    width: 100%;
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .returns-container {
+    padding: 0.5rem;
+  }
+  
+  .header-section {
+    padding: 1.5rem;
+    border-radius: 15px;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .intro-text {
+    font-size: 1rem;
+  }
+  
+  .quick-nav {
+    padding: 1rem;
+  }
+  
+  .nav-title {
+    font-size: 1.3rem;
+  }
+  
+  .nav-button {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .card-header {
+    padding: 1rem;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.8rem;
+  }
+  
+  .section-icon {
+    font-size: 1.5rem;
+    padding: 0.6rem;
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .section-description {
+    font-size: 1rem;
+  }
+  
+  .item-text {
+    font-size: 0.95rem;
+  }
+  
+  .support-content {
+    padding: 1.5rem;
+  }
+  
+  .support-title {
+    font-size: 1.8rem;
+  }
+  
+  .support-text {
+    font-size: 1.1rem;
+  }
+  
+  .support-option {
+    padding: 1.5rem;
+  }
+  
+  .option-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header-section,
+.quick-nav,
+.policy-card,
+.support-section {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.policy-card:nth-child(even) {
+  animation-delay: 0.1s;
+}
+
+.policy-card:nth-child(odd) {
+  animation-delay: 0.2s;
+}
+
+/* Focus styles for accessibility */
+.nav-button:focus,
+.contact-btn:focus,
+.faq-btn:focus {
+  outline: 2px solid #e0e1dd;
+  outline-offset: 2px;
+}
