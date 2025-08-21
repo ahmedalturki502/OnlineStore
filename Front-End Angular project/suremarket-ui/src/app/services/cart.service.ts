@@ -1,12 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, switchMap, map } from 'rxjs/operators';
+import { ProductService } from './product.service';
+
+// Raw interface that might come from the API
+interface RawCartItem {
+  productId: string;
+  productName: string;
+  imageUrl?: string;
+  productImageUrl?: string;
+  product?: {
+    imageUrl?: string;
+  };
+  price: number;
+  quantity: number;
+  total: number;
+}
 
 export interface CartItem {
   productId: string;
   productName: string;
-  productImageUrl: string;
+  imageUrl: string;
   price: number;
   quantity: number;
   total: number;
@@ -25,11 +40,13 @@ export class CartService {
   private cartSubject = new BehaviorSubject<Cart>({ items: [], total: 0 });
   public cart$ = this.cartSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private productService: ProductService) {}
 
   getCart(): Observable<Cart> {
     return this.http.get<Cart>(this.baseUrl)
       .pipe(
+        map(cart => this.normalizeCart(cart)),
+        switchMap(cart => this.enrichCart(cart)),
         tap(cart => this.cartSubject.next(cart)),
         catchError(this.handleError)
       );
@@ -38,6 +55,8 @@ export class CartService {
   addToCart(productId: string, quantity: number): Observable<Cart> {
     return this.http.post<Cart>(`${this.baseUrl}/items`, { productId, quantity })
       .pipe(
+        map(cart => this.normalizeCart(cart)),
+        switchMap(cart => this.enrichCart(cart)),
         tap(cart => this.cartSubject.next(cart)),
         catchError(this.handleError)
       );
@@ -50,6 +69,8 @@ export class CartService {
 
     return this.http.put<Cart>(`${this.baseUrl}/items/${productId}`, { quantity })
       .pipe(
+        map(cart => this.normalizeCart(cart)),
+        switchMap(cart => this.enrichCart(cart)),
         tap(cart => this.cartSubject.next(cart)),
         catchError(this.handleError)
       );
@@ -80,6 +101,8 @@ export class CartService {
   removeItem(productId: string): Observable<Cart> {
     return this.http.delete<Cart>(`${this.baseUrl}/items/${productId}`)
       .pipe(
+        map(cart => this.normalizeCart(cart)),
+        switchMap(cart => this.enrichCart(cart)),
         tap(cart => this.cartSubject.next(cart)),
         catchError(this.handleError)
       );
@@ -107,6 +130,41 @@ export class CartService {
 
   getSubtotal(item: CartItem): number {
     return item.total;
+  }
+
+  private normalizeCart(cart: any): Cart {
+    return {
+      ...cart,
+      items: cart.items.map((item: RawCartItem) => ({
+        productId: item.productId,
+        productName: item.productName || (item as any).name || '',
+        imageUrl: item.imageUrl || item.productImageUrl || item.product?.imageUrl || '',
+        price: item.price,
+        quantity: item.quantity,
+        total: item.total
+      }))
+    };
+  }
+
+  private enrichCart(cart: Cart): Observable<Cart> {
+    return this.productService.getAllProducts()
+      .pipe(
+        map(products => {
+          const enrichedItems = cart.items.map(item => {
+            const product = products.find(p => p.id === item.productId);
+            const imageUrl = product ? product.imageUrl : 'assets/no-image.png';
+            const name = product ? product.name : item.productName;
+            return {
+              ...item,
+              imageUrl,
+              productName: name,
+              // Also include a generic name field for compatibility if used elsewhere
+              ...(name ? { name } : {})
+            } as CartItem & { name?: string };
+          });
+          return { ...cart, items: enrichedItems } as Cart;
+        })
+      );
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {

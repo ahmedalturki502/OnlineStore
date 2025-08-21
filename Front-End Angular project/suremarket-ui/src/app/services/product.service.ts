@@ -22,8 +22,22 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
+  // Alias for fetching all products
+  getProducts(): Observable<Product[]> {
+    return this.getAllProducts();
+  }
+
   getAllProducts(): Observable<Product[]> {
     return this.http.get<{ items: Product[] }>(this.baseUrl)
+      .pipe(
+        map(response => response.items),
+        catchError(this.handleError)
+      );
+  }
+
+  getProductsByCategory(categoryId: string): Observable<Product[]> {
+    const url = `${this.baseUrl}?categoryId=${encodeURIComponent(categoryId)}`;
+    return this.http.get<{ items: Product[] }>(url)
       .pipe(
         map(response => response.items),
         catchError(this.handleError)

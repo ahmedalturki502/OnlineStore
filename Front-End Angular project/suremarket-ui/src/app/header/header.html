@@ -6,12 +6,13 @@
       <a href="#" class="nav-link">Home</a>
       <div class="dropdown" (click)="toggleDropdown()">
         <a href="#" class="nav-link">Categories ▼</a>
-        <div class="dropdown-content" [class.show]="dropdownOpen">
-          <a href="#">Electronics</a>
-          <a href="#">Fashion</a>
-          <a href="#">Home & Garden</a>
-          <a href="#">Sports</a>
-          <a href="#">Books</a>
+        <div class="dropdown-content" [class.show]="dropdownOpen" (mouseleave)="closeDropdown()">
+          <a *ngFor="let cat of categories"
+             [routerLink]="['/products']"
+             [queryParams]="{ categoryId: cat.id }"
+             (click)="$event.stopPropagation(); closeDropdown()">
+            {{ cat.name }}
+          </a>
         </div>
       </div>
       <a routerLink="/products" class="nav-link">Products</a>

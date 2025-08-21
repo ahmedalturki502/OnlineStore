@@ -55,7 +55,7 @@
           <tr *ngFor="let item of cartItems; trackBy: trackByItemId" class="cart-item-row">
             <td class="product-cell">
               <div class="product-info">
-                <img [src]="item.productImageUrl" [alt]="item.productName" class="product-image">
+                <img [src]="item.imageUrl" [alt]="item.productName" class="product-image">
                 <div class="product-details">
                   <h3 class="product-name">{{ item.productName }}</h3>
                 </div>
@@ -93,7 +93,7 @@
     <div class="cart-cards-container mobile-view">
       <div *ngFor="let item of cartItems; trackBy: trackByItemId" class="cart-item-card">
         <div class="card-header">
-          <img [src]="item.productImageUrl" [alt]="item.productName" class="product-image">
+          <img [src]="item.imageUrl" [alt]="item.productName" class="product-image">
           <div class="product-info">
             <h3 class="product-name">{{ item.productName }}</h3>
             <span class="unit-price">${{ item.price.toFixed(2) }} each</span>

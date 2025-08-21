@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProductService, Product } from '../services/product.service';
 import { CartService } from '../services/cart.service';
 
@@ -18,11 +18,19 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.loadProducts();
+    this.route.queryParamMap.subscribe(params => {
+      const categoryId = params.get('categoryId');
+      if (categoryId) {
+        this.loadProductsByCategory(categoryId);
+      } else {
+        this.loadProducts();
+      }
+    });
   }
 
   loadProducts(): void {
@@ -36,6 +44,24 @@ export class ProductsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading products:', error);
+        this.errorMessage = error;
+        this.isLoading = false;
+        this.products = [];
+      }
+    });
+  }
+
+  private loadProductsByCategory(categoryId: string): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    this.productService.getProductsByCategory(categoryId).subscribe({
+      next: (products) => {
+        this.products = products;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error loading products by category:', error);
         this.errorMessage = error;
         this.isLoading = false;
         this.products = [];

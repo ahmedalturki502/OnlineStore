@@ -65,6 +65,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   increaseQuantity(productId: string): void {
     this.cartService.increaseQuantity(productId).subscribe({
+      next: (cart) => this.updateCartData(cart),
       error: (error) => {
         console.error('Error increasing quantity:', error);
         this.errorMessage = error;
@@ -74,6 +75,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   decreaseQuantity(productId: string): void {
     this.cartService.decreaseQuantity(productId).subscribe({
+      next: (cart) => this.updateCartData(cart),
       error: (error) => {
         console.error('Error decreasing quantity:', error);
         this.errorMessage = error;
@@ -90,6 +92,7 @@ export class CartComponent implements OnInit, OnDestroy {
     if (!isNaN(quantity) && quantity >= 0) {
       this.cartService.updateQuantity(productId, quantity).subscribe({
         next: (cart) => {
+          this.updateCartData(cart);
           // Update the input value to show English numerals
           target.value = this.toEnglishNumerals(quantity);
         },
@@ -108,6 +111,7 @@ export class CartComponent implements OnInit, OnDestroy {
 
   removeItem(productId: string): void {
     this.cartService.removeItem(productId).subscribe({
+      next: (cart) => this.updateCartData(cart),
       error: (error) => {
         console.error('Error removing item:', error);
         this.errorMessage = error;
@@ -122,6 +126,9 @@ export class CartComponent implements OnInit, OnDestroy {
   clearCart(): void {
     if (confirm('Are you sure you want to clear your cart?')) {
       this.cartService.clearCart().subscribe({
+        next: () => {
+          this.updateCartData({ items: [], total: 0 });
+        },
         error: (error) => {
           console.error('Error clearing cart:', error);
           this.errorMessage = error;
